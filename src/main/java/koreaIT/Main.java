@@ -19,19 +19,36 @@ public class Main {
             String cmd = sc.nextLine().trim();
 
             if (cmd.startsWith("article detail")){
+                // parsing start
                 String[] cmdBits = cmd.split(" ");
 
                 if(cmdBits.length > 3){
                     System.out.println("명령어를 제대로 입력해주세요.");
                 }
-
+                int detailId = -1;
                 try{
-                    int detailId = Integer.parseInt(cmdBits[2]);
+                    detailId = Integer.parseInt(cmdBits[2]);
                 }catch (NumberFormatException e){
                     System.out.println("정수를 제대로 입력해주세요.");
                 }catch (ArrayIndexOutOfBoundsException e){
                     System.out.println("정수를 추가해서 입력해주세요.");
                 }
+                // parsing end
+
+                if (!articleList.isEmpty()){
+                    for (Article article : articleList){
+                        if(article.getId() == detailId){
+                            System.out.println("너가 찾는 게시물 있어");
+                        }
+                        else {
+                            System.out.printf("%d번 게시글은 없습니다\n", detailId);
+                        }
+                    }
+                }
+                else{
+                    System.out.println("게시글이 없습니다.");
+                }
+
 
 
             }
