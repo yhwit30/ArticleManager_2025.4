@@ -1,21 +1,20 @@
 package koreaIT;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class Main {
+    static List<Article> articleList = new ArrayList<>();
+
     public static void main(String[] args) {
 
-//        Test.test();
-
-        List<Article> articleList = new ArrayList<>();
 
         System.out.println("== 프로그램 시작 ==");
 
-        int lastId = 0;
+        makeTestData();
+
+        int lastId = 3;
 
         Scanner sc = new Scanner(System.in);
 
@@ -23,7 +22,7 @@ public class Main {
             System.out.print("명령어) ");
             String cmd = sc.nextLine().trim();
 
-            if(cmd.startsWith("article modify")){
+            if (cmd.startsWith("article modify")) {
                 // parsing start
                 String[] cmdBits = cmd.split(" ");
 
@@ -71,8 +70,7 @@ public class Main {
                 } else {
                     System.out.println("게시글이 아예 없습니다.");
                 }
-            }
-            else if(cmd.startsWith("article delete")){
+            } else if (cmd.startsWith("article delete")) {
                 // parsing start
                 String[] cmdBits = cmd.split(" ");
 
@@ -108,8 +106,7 @@ public class Main {
                 }
 
 
-            }
-            else if (cmd.startsWith("article detail")) {
+            } else if (cmd.startsWith("article detail")) {
                 // parsing start
                 String[] cmdBits = cmd.split(" ");
 
@@ -133,7 +130,7 @@ public class Main {
                             flag = false;
                             System.out.println("번호 : " + article.getId());
                             System.out.println("등록날짜 : " + article.getRegDate());
-                            if(article.getUpdateDate() != null){ // String 널체크 문법 체크하기
+                            if (article.getUpdateDate() != null && !article.getUpdateDate().isEmpty()) {
                                 System.out.println("수정날짜 : " + article.getUpdateDate());
                             }
                             System.out.println("제목 : " + article.getTitle());
@@ -164,11 +161,7 @@ public class Main {
                 lastId++;
                 int id = lastId;
 
-                Article addArticle = new Article();
-                addArticle.setId(id);
-                addArticle.setTitle(title);
-                addArticle.setBody(body);
-                addArticle.setRegDate(regDate);
+                Article addArticle = new Article(id, title, body, regDate, "");
 
                 articleList.add(addArticle);
 
@@ -183,4 +176,12 @@ public class Main {
         }
 
     }
+
+    private static void makeTestData() {
+        System.out.println("테스트를 위한 데이터를 생성합니다.");
+        articleList.add(new Article(1, "제목1", "내용1", "2025-03-12 12:12:12", Util.getNowDate()));
+        articleList.add(new Article(2, "제목2", "내용2", "2025-04-12 12:12:12", Util.getNowDate()));
+        articleList.add(new Article(3, "제목3", "내용3", "2025-05-12 12:12:12", Util.getNowDate()));
+    }
+
 }
