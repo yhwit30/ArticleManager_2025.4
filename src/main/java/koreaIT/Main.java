@@ -23,7 +23,44 @@ public class Main {
             System.out.print("명령어) ");
             String cmd = sc.nextLine().trim();
 
-            if (cmd.startsWith("article detail")) {
+            if(cmd.startsWith("article delete")){
+                // parsing start
+                String[] cmdBits = cmd.split(" ");
+
+                if (cmdBits.length > 3) {
+                    System.out.println("명령어를 제대로 입력해주세요.");
+                }
+                int deleteId = -1;
+                try {
+                    deleteId = Integer.parseInt(cmdBits[2]);
+                } catch (NumberFormatException e) {
+                    System.out.println("정수를 제대로 입력해주세요.");
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    System.out.println("정수를 추가해서 입력해주세요.");
+                }
+                // parsing end
+
+                // deleteId 로 게시글 찾아보기
+                boolean flag = true;
+                if (!articleList.isEmpty()) {
+                    for (Article article : articleList) {
+                        if (article.getId() == deleteId) {
+                            flag = false;
+                            articleList.remove(article);
+                            System.out.printf("%d번 게시글이 삭제되었습니다.\n", deleteId);
+                            break;
+                        }
+                    }
+                    if (flag == true) {
+                        System.out.printf("%d번 게시글은 없습니다\n", deleteId);
+                    }
+                } else {
+                    System.out.println("게시글이 아예 없습니다.");
+                }
+
+
+            }
+            else if (cmd.startsWith("article detail")) {
                 // parsing start
                 String[] cmdBits = cmd.split(" ");
 
@@ -70,12 +107,7 @@ public class Main {
                 System.out.print("내용 : ");
                 String body = sc.nextLine();
 
-//                현재 일시 불어와서 형식 변경
-                LocalDateTime now = LocalDateTime.now();
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-                String formatedNow = now.format(formatter);
-                String regDate = formatedNow;
-
+                String regDate = Util.getNowDate();
 
                 lastId++;
                 int id = lastId;
