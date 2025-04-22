@@ -1,5 +1,6 @@
 package koreaIT;
 
+import koreaIT.controller.MemberController;
 import koreaIT.dto.Article;
 import koreaIT.dto.Member;
 import koreaIT.util.Util;
@@ -24,9 +25,10 @@ public class App {
         makeTestData();
 
         int lastArticleId = 3;
-        int lastMemebrId = 0;
 
         Scanner sc = new Scanner(System.in);
+
+        MemberController memberController = new MemberController(sc, memberList);
 
         while (true) {
             System.out.print("명령어) ");
@@ -35,44 +37,8 @@ public class App {
 
             if (cmd.startsWith("member join")) {
 
-                String loginId;
-                while (true) {
-                    System.out.print("로그인 아이디 : ");
-                    loginId = sc.nextLine();
+                memberController.doJoin();
 
-                    if (isJoinableLoginId(loginId) == false) {
-                        System.out.println("이미 사용 중인 아이디입니다.");
-                        continue;
-                    }
-                    break;
-                }
-
-                String loginPw;
-                while (true) {
-                    System.out.print("로그인 비밀번호 : ");
-                    loginPw = sc.nextLine();
-                    System.out.print("로그인 비밀번호 확인 : ");
-                    String loginPwConfirm = sc.nextLine();
-
-                    if (!loginPw.equals(loginPwConfirm)) {
-                        System.out.println("비밀번호 다시 확인해주세요.");
-                        continue;
-                    }
-                    break;
-                }
-
-
-                System.out.print("이름 : ");
-                String name = sc.nextLine();
-
-                String regDate = Util.getNowDate();
-
-                lastMemebrId++;
-                Member addMember = new Member(lastMemebrId, regDate, "", loginId, loginPw, name);
-
-                memberList.add(addMember);
-
-                System.out.printf("%d번 회원이 등록되었습니다. %s님 환영합니다.\n", lastMemebrId, name);
 
 
             } else if (cmd.startsWith("article modify")) {
@@ -199,14 +165,7 @@ public class App {
     }
 
 
-    private boolean isJoinableLoginId(String loginId) {
-        for (Member member : memberList) {
-            if (member.getLoginId().equals(loginId)) {
-                return false;
-            }
-        }
-        return true;
-    }
+
 
     private Article getArticleById(int id) {
         for (Article article : articleList) {
