@@ -2,6 +2,7 @@ package koreaIT.controller;
 
 import koreaIT.Container;
 import koreaIT.dto.Article;
+import koreaIT.service.ArticleService;
 import koreaIT.util.Util;
 
 import java.util.List;
@@ -13,9 +14,11 @@ public class ArticleController extends Controller {
     private List<Article> articleList;
     private int lastArticleId = 3;
 
+    ArticleService articleService = new ArticleService();
+
     public ArticleController(Scanner sc) {
         this.sc = sc;
-        this.articleList = Container.articleDao.articleList;
+        this.articleList = articleService.getArticle();
     }
 
     @Override

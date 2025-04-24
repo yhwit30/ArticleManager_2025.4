@@ -2,6 +2,7 @@ package koreaIT.controller;
 
 import koreaIT.Container;
 import koreaIT.dto.Member;
+import koreaIT.service.MemberService;
 import koreaIT.util.Util;
 
 import java.util.List;
@@ -13,9 +14,11 @@ public class MemberController extends Controller {
     private List<Member> memberList;
     private int lastMemberId = 3;
 
+    MemberService memberService = new MemberService();
+
     public MemberController(Scanner sc) {
         this.sc = sc;
-        this.memberList = Container.memberDao.memberList;
+        this.memberList = memberService.getMembers();
     }
 
     public void doAction(String methodName, String cmd){
