@@ -1,9 +1,9 @@
 package koreaIT.controller;
 
+import koreaIT.Container;
 import koreaIT.dto.Article;
 import koreaIT.util.Util;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -15,7 +15,7 @@ public class ArticleController extends Controller {
 
     public ArticleController(Scanner sc) {
         this.sc = sc;
-        this.articleList = new ArrayList<>();
+        this.articleList = Container.articleDao.articleList;
     }
 
     @Override
